@@ -1,0 +1,16 @@
+--- #YAML:1.0
+name:                File-Sharedir-Install
+version:             0.01
+abstract:            Install shared files
+license:             perl
+generated_by:        ExtUtils::MakeMaker version 6.36
+distribution_type:   module
+requires:     
+    ExtUtils::MakeMaker:           6.11
+    File::Spec:                    0
+    IO::Dir:                       0
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
+    version: 1.2
+author:
+    - Philip Gwyn <gwyn-at-cpan.org>
