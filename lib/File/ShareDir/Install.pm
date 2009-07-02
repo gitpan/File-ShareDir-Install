@@ -1,4 +1,4 @@
-package File::Sharedir::Install;
+package File::ShareDir::Install;
 
 use 5.008;
 use strict;
@@ -9,7 +9,7 @@ use Carp;
 use File::Spec;
 use IO::Dir;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 our @DIRS;
 our %TYPES;
@@ -125,7 +125,7 @@ sub _CLASS ($) {
         and
         ! ref $_[0]
         and
-        $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*\z/s
+        $_[0] =~ m/^[^\W\d]\w*(?:::\w+)*$/s
     ) ? $_[0] : undef;
 }
 
@@ -134,12 +134,12 @@ __END__
 
 =head1 NAME
 
-File::Sharedir::Install - Install shared files
+File::ShareDir::Install - Install shared files
 
 =head1 SYNOPSIS
 
     use ExtUtils::MakeMaker;
-    use File::Sharedir::Install;
+    use File::ShareDir::Install;
 
     install_share 'share';
     install_share dist => 'dist-share';
@@ -148,7 +148,7 @@ File::Sharedir::Install - Install shared files
     WriteMakefile( ... );       # As you normaly would
 
     package MY;
-    use File::Sharedir::Install qw(postamble);
+    use File::ShareDir::Install qw(postamble);
 
 =head1 DESCRIPTION
 
@@ -157,7 +157,7 @@ distribution. It is a companion module to L<File::ShareDir>, which
 allows you to locate these files after installation.
 
 It is a port L<Module::Install::Share> to L<ExtUtils::MakeMaker> with the
-improvement only installing the files you want; C<.svn> and
+improvement of only installing the files you want; C<.svn> and
 other source-control junk will be ignored.
 
 =head1 EXPORT
@@ -168,24 +168,47 @@ other source-control junk will be ignored.
     install_share dist => $dir;
     install_share module => $module, $dir;
 
+Causes all the files in C<$dir> and its sub-directories.  to be installed
+into a per-dist or per-module share directory.  Must be called before
+L<WriteMakefile>.
+
+The first 2 forms are equivalent.
+
+The files will be installed when you run C<make install>.
+
+To locate the files after installation so they can be used inside your
+module, see  L<File::ShareDir>.
+
+    my $dir = File::ShareDir::module_dir( $module );
+
+Note that if you make multiple calls to C<install_share> on different
+directories that contain the same filenames, the last of these calls takes
+precedence.  In other words, if you do:
+
+    install_share 'share1';
+    install_share 'share2';
+
+And both C<share1> and C<share2> contain a fill called C<info>, the file
+C<share2/info> will be installed into your C<dist_dir()>.
+
 =head2 postamble
 
 Exported into the MY package.  Only documented here if you need to write your
 own postable.
 
     package MY;
-    use File::Sharedir::Install;
+    use File::ShareDir::Install;
 
     sub postamble {
         my $self = shift;
-        my @ret = File::Sharedir::Install::postamble( $self );
+        my @ret = File::ShareDir::Install::postamble( $self );
         # ... add more things to @ret;
         return join "\n", @ret;
     }
 
 =head1 SEE ALSO
 
-L<File::Sharedir>, L<Module::Install>.
+L<File::ShareDir>, L<Module::Install>.
 
 =head1 AUTHOR
 
