@@ -21,4 +21,4 @@ requires:
   ExtUtils::MakeMaker: 6.11
   File::Spec: 0
   IO::Dir: 0
-version: 0.07
+version: 0.08
