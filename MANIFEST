@@ -17,5 +17,4 @@ t/share/.dir/something
 t/share/.something
 t/share/honk
 t/12_delete.t
-META.yml                                 Module YAML meta-data (added by MakeMaker)
-META.json                                Module JSON meta-data (added by MakeMaker)
+META.yml                                 Module meta-data (added by MakeMaker)
